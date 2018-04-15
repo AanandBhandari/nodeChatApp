@@ -8,4 +8,10 @@ socket.on('disconnect', ()=> {
 });
 socket.on('newMessage',function (newMessage) {
     console.log('newMessage',newMessage);
-})
+});
+socket.emit('createMessage', {
+    from : 'bunu',
+    text : 'Hi'
+}, function (data) {
+    console.log('got it',data);
+});
