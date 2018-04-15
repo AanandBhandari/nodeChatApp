@@ -9,4 +9,3 @@ socket.on('disconnect', ()=> {
 socket.on('newMessage',function (newMessage) {
     console.log('newMessage',newMessage);
 })
-
