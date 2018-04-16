@@ -1,6 +1,6 @@
 const express = require('express');
 const socketIO = require('socket.io');
-const {generateMessage} = require('./utils/message.js');
+const {generateMessage, generateLocationMessage} = require('./utils/message.js');
 const http = require('http');
 const path = require('path');
 const publicPath = path.join(__dirname,'../public');
@@ -20,14 +20,14 @@ io.on('connection', (socket) => {
         // {
         //     from: createMessage.from,
         //     text: createMessage.text,
-        //     createdAt: new Date().getTime()
+        //     createdAt: new Date().getTime() 
         // }
           
     );
     callback('hi from the server'); 
     });
     socket.on('createLocationMessage',(coords) => {
-        io.emit('newMessage', generateMessage('Admin',`${coords.latitude}, ${coords.longitude}`));
+        io.emit('newLocationMessage', generateLocationMessage('Admin',coords.latitude, coords.longitude));
     });
     socket.on('disconnect', () =>{
         console.log('user was disconnected');
