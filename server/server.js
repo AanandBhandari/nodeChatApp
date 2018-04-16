@@ -24,7 +24,7 @@ io.on('connection', (socket) => {
         // }
           
     );
-    callback('hi from the server');
+    callback('hi from the server'); 
     });
     socket.on('disconnect', () =>{
         console.log('user was disconnected');
