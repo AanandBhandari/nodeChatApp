@@ -6,6 +6,20 @@ socket.on('connect', () => {
 socket.on('disconnect', ()=> {
     console.log('Disconnected from server');
 });
+function scrollTobottom() {
+    // selector
+    var messages = jQuery('#messages');
+    var newMessage = messages.children('li:last-child');
+    // heights
+    var clientHeight = messages.prop('clientHeight');
+    var scrollTop = messages.prop('scrollTop');
+    var scrollHeight = messages.prop('scrollHeight');
+    var newMessageHeight = newMessage.innerHeight();
+    var lastMessageHeight = newMessage.innerHeight();
+    if (clientHeight + scrollTop + newMessageHeight +lastMessageHeight >= scrollHeight) {
+        messages.scrollTop(scrollHeight);
+    }
+}
 socket.on('newMessage',function (newMessage) {
     // console.log('newMessage',newMessage);
     var formattedTime = moment(newMessage.createdAt).format('h:mm a');
@@ -19,13 +33,14 @@ socket.on('newMessage',function (newMessage) {
         createdAt : formattedTime
     });
     jQuery('#messages').append(html);
+    scrollTobottom();
 });
-socket.emit('createMessage', {
-    from : 'bunu',
-    text : 'Hi'
-}, function (data) {
-    console.log('got it',data);
-}); 
+// socket.emit('createMessage', {
+//     from : 'bunu',
+//     text : 'Hi'
+// }, function (data) {
+//     console.log('got it',data);
+// }); 
 socket.on('newLocationMessage', function (message) {
     var formattedTime = moment(message.createdAt).format('h:mm a');
     // var li = jQuery('<li></li>');
@@ -41,6 +56,7 @@ socket.on('newLocationMessage', function (message) {
         url : message.url
     });
     jQuery('#messages').append(html);
+    scrollTobottom();
 });
 
 jQuery('#message-form').on('submit',function (e) {
